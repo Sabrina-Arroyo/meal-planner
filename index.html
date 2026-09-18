@@ -6,9 +6,13 @@
     <title>Meal Planner</title>
 
     <style>
+        * {
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: Arial, sans-serif;
             margin: 0;
+            font-family: Arial, sans-serif;
             background: #f5f3ef;
             color: #292929;
         }
@@ -16,40 +20,114 @@
         header {
             background: #292929;
             color: white;
-            padding: 24px;
+            padding: 28px 20px;
             text-align: center;
+        }
+
+        header h1 {
+            margin: 0 0 6px;
+            font-size: 28px;
+        }
+
+        header p {
+            margin: 0;
+            opacity: 0.8;
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px;
+            background: white;
+            border-bottom: 1px solid #ddd;
+            overflow-x: auto;
+        }
+
+        nav button {
+            background: transparent;
+            color: #292929;
+            border: none;
+            padding: 10px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        nav button:hover {
+            background: #eee;
         }
 
         main {
             max-width: 900px;
             margin: 0 auto;
-            padding: 24px;
+            padding: 24px 16px 40px;
+        }
+
+        .welcome {
+            margin-bottom: 24px;
+        }
+
+        .welcome h2 {
+            margin-bottom: 6px;
+        }
+
+        .welcome p {
+            margin-top: 0;
+            color: #666;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
         }
 
         .card {
             background: white;
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 20px;
+            border-radius: 14px;
+            padding: 22px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.08);
         }
 
-        h1, h2 {
-            margin-top: 0;
+        .card-icon {
+            font-size: 32px;
+            margin-bottom: 10px;
         }
 
-        button {
+        .card h3 {
+            margin: 0 0 8px;
+        }
+
+        .card p {
+            color: #666;
+            line-height: 1.5;
+        }
+
+        .card button {
+            width: 100%;
+            margin-top: 8px;
+            padding: 12px;
             border: none;
             border-radius: 8px;
-            padding: 12px 18px;
-            cursor: pointer;
             background: #292929;
             color: white;
-            font-size: 16px;
+            cursor: pointer;
+            font-size: 15px;
         }
 
-        button:hover {
+        .card button:hover {
             opacity: 0.85;
+        }
+
+        @media (max-width: 600px) {
+            header h1 {
+                font-size: 24px;
+            }
+
+            main {
+                padding: 20px 14px 30px;
+            }
         }
     </style>
 </head>
@@ -61,25 +139,52 @@
     <p>Plan meals. Build your grocery list.</p>
 </header>
 
+<nav>
+    <button>🏠 Home</button>
+    <button>📅 Meal Plan</button>
+    <button>🍳 Recipes</button>
+    <button>🛒 Grocery List</button>
+    <button>📦 Pantry</button>
+</nav>
+
 <main>
 
-    <div class="card">
+    <section class="welcome">
         <h2>This Week</h2>
-        <p>Your weekly meal plan will go here.</p>
-        <button>Plan a Meal</button>
-    </div>
+        <p>What would you like to work on?</p>
+    </section>
 
-    <div class="card">
-        <h2>Recipes</h2>
-        <p>Your recipe collection will go here.</p>
-        <button>View Recipes</button>
-    </div>
+    <section class="grid">
 
-    <div class="card">
-        <h2>Grocery List</h2>
-        <p>Your automatically calculated grocery list will go here.</p>
-        <button>View Grocery List</button>
-    </div>
+        <div class="card">
+            <div class="card-icon">📅</div>
+            <h3>Meal Plan</h3>
+            <p>Plan your meals for the week and organize your recipes.</p>
+            <button>Open Meal Plan</button>
+        </div>
+
+        <div class="card">
+            <div class="card-icon">🍳</div>
+            <h3>Recipes</h3>
+            <p>Browse your recipes and add new meals to your collection.</p>
+            <button>View Recipes</button>
+        </div>
+
+        <div class="card">
+            <div class="card-icon">🛒</div>
+            <h3>Grocery List</h3>
+            <p>See what you need to buy based on your meal plan.</p>
+            <button>View Grocery List</button>
+        </div>
+
+        <div class="card">
+            <div class="card-icon">📦</div>
+            <h3>Pantry</h3>
+            <p>Keep track of ingredients you already have at home.</p>
+            <button>View Pantry</button>
+        </div>
+
+    </section>
 
 </main>
 
