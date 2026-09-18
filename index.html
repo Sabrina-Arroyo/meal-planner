@@ -20,7 +20,7 @@
         header {
             background: #292929;
             color: white;
-            padding: 28px 20px;
+            padding: 26px 20px;
             text-align: center;
         }
 
@@ -37,8 +37,8 @@
         nav {
             display: flex;
             justify-content: center;
-            gap: 8px;
-            padding: 12px;
+            gap: 6px;
+            padding: 10px;
             background: white;
             border-bottom: 1px solid #ddd;
             overflow-x: auto;
@@ -48,10 +48,11 @@
             background: transparent;
             color: #292929;
             border: none;
-            padding: 10px 14px;
+            padding: 10px 13px;
             border-radius: 8px;
             cursor: pointer;
             white-space: nowrap;
+            font-size: 14px;
         }
 
         nav button:hover {
@@ -61,62 +62,116 @@
         main {
             max-width: 900px;
             margin: 0 auto;
-            padding: 24px 16px 40px;
+            padding: 24px 16px 50px;
         }
 
-        .welcome {
-            margin-bottom: 24px;
+        .page-heading {
+            margin-bottom: 20px;
         }
 
-        .welcome h2 {
-            margin-bottom: 6px;
+        .page-heading h2 {
+            margin: 0 0 6px;
         }
 
-        .welcome p {
-            margin-top: 0;
+        .page-heading p {
+            margin: 0;
             color: #666;
         }
 
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 16px;
-        }
-
-        .card {
+        .day {
             background: white;
             border-radius: 14px;
-            padding: 22px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            margin-bottom: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+            overflow: hidden;
         }
 
-        .card-icon {
-            font-size: 32px;
-            margin-bottom: 10px;
-        }
-
-        .card h3 {
-            margin: 0 0 8px;
-        }
-
-        .card p {
-            color: #666;
-            line-height: 1.5;
-        }
-
-        .card button {
+        .day-header {
             width: 100%;
-            margin-top: 8px;
-            padding: 12px;
+            border: none;
+            background: white;
+            padding: 18px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: bold;
+            text-align: left;
+        }
+
+        .day-header:hover {
+            background: #fafafa;
+        }
+
+        .arrow {
+            font-size: 16px;
+            transition: transform 0.2s;
+        }
+
+        .day.open .arrow {
+            transform: rotate(180deg);
+        }
+
+        .meals {
+            display: none;
+            padding: 0 20px 20px;
+            border-top: 1px solid #eee;
+        }
+
+        .day.open .meals {
+            display: block;
+        }
+
+        .meal {
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .meal:last-child {
+            border-bottom: none;
+        }
+
+        .meal-label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 7px;
+        }
+
+        .meal-input {
+            width: 100%;
+            padding: 11px 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 15px;
+        }
+
+        .meal-input:focus {
+            outline: none;
+            border-color: #555;
+        }
+
+        .save-message {
+            text-align: center;
+            color: #555;
+            font-size: 14px;
+            min-height: 20px;
+            margin-top: 12px;
+        }
+
+        .save-button {
+            display: block;
+            margin: 20px auto 0;
+            padding: 12px 22px;
             border: none;
             border-radius: 8px;
             background: #292929;
             color: white;
-            cursor: pointer;
             font-size: 15px;
+            cursor: pointer;
         }
 
-        .card button:hover {
+        .save-button:hover {
             opacity: 0.85;
         }
 
@@ -126,7 +181,15 @@
             }
 
             main {
-                padding: 20px 14px 30px;
+                padding: 20px 12px 40px;
+            }
+
+            .day-header {
+                padding: 16px;
+            }
+
+            .meals {
+                padding: 0 16px 16px;
             }
         }
     </style>
@@ -149,44 +212,135 @@
 
 <main>
 
-    <section class="welcome">
+    <div class="page-heading">
         <h2>This Week</h2>
-        <p>What would you like to work on?</p>
-    </section>
+        <p>Plan your meals from Monday through Sunday.</p>
+    </div>
 
-    <section class="grid">
+    <div id="mealPlan"></div>
 
-        <div class="card">
-            <div class="card-icon">📅</div>
-            <h3>Meal Plan</h3>
-            <p>Plan your meals for the week and organize your recipes.</p>
-            <button>Open Meal Plan</button>
-        </div>
+    <button class="save-button" onclick="saveMealPlan()">
+        Save Meal Plan
+    </button>
 
-        <div class="card">
-            <div class="card-icon">🍳</div>
-            <h3>Recipes</h3>
-            <p>Browse your recipes and add new meals to your collection.</p>
-            <button>View Recipes</button>
-        </div>
-
-        <div class="card">
-            <div class="card-icon">🛒</div>
-            <h3>Grocery List</h3>
-            <p>See what you need to buy based on your meal plan.</p>
-            <button>View Grocery List</button>
-        </div>
-
-        <div class="card">
-            <div class="card-icon">📦</div>
-            <h3>Pantry</h3>
-            <p>Keep track of ingredients you already have at home.</p>
-            <button>View Pantry</button>
-        </div>
-
-    </section>
+    <div class="save-message" id="saveMessage"></div>
 
 </main>
+
+<script>
+    const days = [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+        "Sunday"
+    ];
+
+    const mealTypes = [
+        { key: "breakfast", name: "🍳 Breakfast" },
+        { key: "drink", name: "🥤 Drink" },
+        { key: "lunch", name: "🥪 Lunch" },
+        { key: "snack", name: "🍎 Snack" },
+        { key: "dinner", name: "🍽️ Dinner" }
+    ];
+
+    function createMealPlan() {
+        const container = document.getElementById("mealPlan");
+        container.innerHTML = "";
+
+        days.forEach((day, dayIndex) => {
+
+            const dayBox = document.createElement("div");
+            dayBox.className = "day";
+
+            const header = document.createElement("button");
+            header.className = "day-header";
+            header.innerHTML = `
+                <span>${day}</span>
+                <span class="arrow">▼</span>
+            `;
+
+            header.onclick = function() {
+                dayBox.classList.toggle("open");
+            };
+
+            const meals = document.createElement("div");
+            meals.className = "meals";
+
+            mealTypes.forEach(meal => {
+
+                const mealBox = document.createElement("div");
+                mealBox.className = "meal";
+
+                const label = document.createElement("label");
+                label.className = "meal-label";
+                label.textContent = meal.name;
+
+                const input = document.createElement("input");
+                input.className = "meal-input";
+                input.type = "text";
+                input.placeholder = "Add a meal...";
+
+                input.dataset.day = dayIndex;
+                input.dataset.meal = meal.key;
+
+                mealBox.appendChild(label);
+                mealBox.appendChild(input);
+                meals.appendChild(mealBox);
+            });
+
+            dayBox.appendChild(header);
+            dayBox.appendChild(meals);
+
+            container.appendChild(dayBox);
+        });
+
+        loadMealPlan();
+    }
+
+    function saveMealPlan() {
+        const inputs = document.querySelectorAll(".meal-input");
+        const mealPlan = {};
+
+        inputs.forEach(input => {
+            const key = input.dataset.day + "_" + input.dataset.meal;
+            mealPlan[key] = input.value;
+        });
+
+        localStorage.setItem(
+            "mealPlanner",
+            JSON.stringify(mealPlan)
+        );
+
+        document.getElementById("saveMessage").textContent =
+            "Meal plan saved.";
+
+        setTimeout(() => {
+            document.getElementById("saveMessage").textContent = "";
+        }, 2500);
+    }
+
+    function loadMealPlan() {
+        const saved = localStorage.getItem("mealPlanner");
+
+        if (!saved) return;
+
+        const mealPlan = JSON.parse(saved);
+        const inputs = document.querySelectorAll(".meal-input");
+
+        inputs.forEach(input => {
+            const key = input.dataset.day + "_" + input.dataset.meal;
+
+            if (mealPlan[key]) {
+                input.value = mealPlan[key];
+            }
+        });
+    }
+
+    createMealPlan();
+</script>
 
 </body>
 </html>
