@@ -637,6 +637,10 @@ function loadRecipePickers() {
 
   pickers.forEach(picker => {
 
+    const key = picker.dataset.mealKey;
+
+    const savedRecipeId = mealPlan[key] || "";
+
     picker.innerHTML =
       '<option value="">Choose a saved recipe...</option>';
 
@@ -646,6 +650,10 @@ function loadRecipePickers() {
 
       option.value = recipe.id;
       option.textContent = recipe.name;
+
+      if (String(recipe.id) === String(savedRecipeId)) {
+        option.selected = true;
+      }
 
       picker.appendChild(option);
 
