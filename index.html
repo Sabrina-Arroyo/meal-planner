@@ -546,25 +546,25 @@
     }
 
 
-    function collectMealTypeInputs() {
+function collectMealTypeInputs() {
 
-      meals.forEach(meal => {
+  meals.forEach(meal => {
 
-        days.forEach((day, index) => {
+    days.forEach((day, index) => {
 
-          const key = getKey(index, meal.key);
+      const key = getKey(index, meal.key);
 
-          const input = document.getElementById(key);
+      const picker = document.getElementById(`recipe_${key}`);
 
-          if (input) {
-            mealPlan[key] = input.value;
-          }
+      if (picker) {
+        mealPlan[key] = picker.value;
+      }
 
-        });
+    });
 
-      });
+  });
 
-    }
+}
 
 
     function collectDayInputs() {
