@@ -57,11 +57,6 @@
       background: #ddd5cf;
     }
 
-    nav button.active {
-      background: #3f3548;
-      color: white;
-    }
-
     main {
       max-width: 1200px;
       margin: 0 auto;
@@ -218,8 +213,7 @@
     }
 
     .save-button,
-    .danger-button,
-    .primary-button {
+    .danger-button {
       border: none;
       padding: 12px 20px;
       border-radius: 8px;
@@ -227,8 +221,7 @@
       font-size: 15px;
     }
 
-    .save-button,
-    .primary-button {
+    .save-button {
       background: #3f3548;
       color: white;
     }
@@ -239,123 +232,8 @@
     }
 
     .save-button:hover,
-    .danger-button:hover,
-    .primary-button:hover {
+    .danger-button:hover {
       opacity: 0.85;
-    }
-
-    /* RECIPE BOOK */
-
-    .recipe-toolbar {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-bottom: 20px;
-    }
-
-    .recipe-toolbar input {
-      flex: 1;
-      min-width: 200px;
-    }
-
-    .recipe-form {
-      background: white;
-      border-radius: 12px;
-      padding: 20px;
-      margin-bottom: 25px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-    }
-
-    .recipe-form h3 {
-      margin-top: 0;
-    }
-
-    .form-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-bottom: 15px;
-    }
-
-    .form-field {
-      margin-bottom: 15px;
-    }
-
-    .form-field label {
-      display: block;
-      font-weight: bold;
-      font-size: 13px;
-      margin-bottom: 6px;
-    }
-
-    .ingredient-row {
-      display: grid;
-      grid-template-columns: 1.5fr 0.7fr 0.8fr auto;
-      gap: 8px;
-      margin-bottom: 8px;
-    }
-
-    .small-button {
-      border: none;
-      background: #ddd5cf;
-      border-radius: 7px;
-      padding: 8px 12px;
-      cursor: pointer;
-    }
-
-    .small-button:hover {
-      background: #ccc2ba;
-    }
-
-    .remove-ingredient {
-      background: #eee0e0;
-    }
-
-    .recipe-card {
-      background: white;
-      border-radius: 12px;
-      padding: 18px;
-      margin-bottom: 15px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-    }
-
-    .recipe-card-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 10px;
-    }
-
-    .recipe-card h3 {
-      margin: 0 0 5px;
-    }
-
-    .recipe-category {
-      font-size: 13px;
-      color: #6c625c;
-    }
-
-    .recipe-section-title {
-      font-weight: bold;
-      margin-top: 15px;
-      margin-bottom: 7px;
-    }
-
-    .recipe-ingredients {
-      margin: 0;
-      padding-left: 20px;
-    }
-
-    .recipe-instructions {
-      white-space: pre-wrap;
-      color: #4d4641;
-    }
-
-    .recipe-actions {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      margin-top: 15px;
     }
 
     .empty-message {
@@ -367,7 +245,6 @@
     }
 
     @media (max-width: 700px) {
-
       header h1 {
         font-size: 24px;
       }
@@ -383,14 +260,6 @@
       .calendar-grid {
         grid-template-columns: repeat(7, 140px);
       }
-
-      .form-row {
-        grid-template-columns: 1fr;
-      }
-
-      .ingredient-row {
-        grid-template-columns: 1fr 0.7fr 0.8fr auto;
-      }
     }
   </style>
 </head>
@@ -403,295 +272,49 @@
   </header>
 
   <nav>
-    <button id="homeNav" onclick="showSection('home')">
-      Home
-    </button>
-
-    <button id="mealPlanNav" onclick="showSection('mealPlan')">
-      Meal Plan
-    </button>
-
-    <button id="recipesNav" onclick="showSection('recipes')">
-      Recipes
-    </button>
-
-    <button>
-      Grocery List
-    </button>
-
-    <button>
-      Pantry
-    </button>
+    <button>Home</button>
+    <button>Meal Plan</button>
+    <button>Recipes</button>
+    <button>Grocery List</button>
+    <button>Pantry</button>
   </nav>
 
   <main>
 
-    <!-- HOME -->
-
-    <div id="homeSection">
-
-      <div class="page-title">
-        <h2>Meal Planner</h2>
-        <p>Plan your meals, save your recipes, and build your grocery list.</p>
-      </div>
-
-      <div class="empty-message">
-        <h3>Welcome to your Meal Planner</h3>
-        <p>
-          Use <strong>Meal Plan</strong> to plan your week or
-          <strong>Recipes</strong> to build your recipe collection.
-        </p>
-      </div>
-
+    <div class="page-title">
+      <h2>This Week</h2>
+      <p>Choose your meals for the week.</p>
     </div>
 
+    <div class="view-buttons">
+      <button id="mealTypeButton" onclick="showView('mealType')">
+        🍽️ Meal Type
+      </button>
 
-    <!-- MEAL PLAN -->
+      <button id="calendarButton" onclick="showView('calendar')">
+        📅 Calendar
+      </button>
 
-    <div id="mealPlanSection" style="display:none;">
-
-      <div class="page-title">
-        <h2>This Week</h2>
-        <p>Choose your meals for the week.</p>
-      </div>
-
-      <div class="view-buttons">
-
-        <button id="mealTypeButton" onclick="showView('mealType')">
-          🍽️ Meal Type
-        </button>
-
-        <button id="calendarButton" onclick="showView('calendar')">
-          📅 Calendar
-        </button>
-
-        <button id="dayButton" onclick="showView('day')">
-          📆 Day
-        </button>
-
-      </div>
-
-      <div id="planner"></div>
-
-      <div class="save-area">
-
-        <button class="save-button" onclick="savePlan()">
-          Save
-        </button>
-
-        <button class="danger-button" onclick="startNewWeek()">
-          Start New Week
-        </button>
-
-      </div>
-
+      <button id="dayButton" onclick="showView('day')">
+        📆 Day
+      </button>
     </div>
 
-
-    <!-- RECIPES -->
-
-    <div id="recipesSection" style="display:none;">
-
-      <div class="page-title">
-
-        <h2>Recipe Book</h2>
-
-        <p>
-          Save your recipes so you can use them in your meal plans.
-        </p>
-
-      </div>
-
-
-      <div class="recipe-toolbar">
-
-        <input
-          type="text"
-          id="recipeSearch"
-          placeholder="Search recipes..."
-          oninput="renderRecipes()"
-        >
-
-        <button
-          class="primary-button"
-          onclick="showRecipeForm()"
-        >
-          + Add Recipe
-        </button>
-
-      </div>
-
-
-      <div
-        id="recipeFormContainer"
-        style="display:none;"
-      >
-
-        <div class="recipe-form">
-
-          <h3>Add Recipe</h3>
-
-          <div class="form-row">
-
-            <div class="form-field">
-
-              <label for="recipeName">
-                Recipe Name
-              </label>
-
-              <input
-                id="recipeName"
-                type="text"
-                placeholder="Example: Chicken Tacos"
-              >
-
-            </div>
-
-
-            <div class="form-field">
-
-              <label for="recipeCategory">
-                Category
-              </label>
-
-              <select id="recipeCategory">
-
-                <option value="Breakfast">
-                  Breakfast
-                </option>
-
-                <option value="Drink">
-                  Drink
-                </option>
-
-                <option value="Lunch">
-                  Lunch
-                </option>
-
-                <option value="Snack">
-                  Snack
-                </option>
-
-                <option value="Dinner" selected>
-                  Dinner
-                </option>
-
-                <option value="Dessert">
-                  Dessert
-                </option>
-
-                <option value="Side">
-                  Side
-                </option>
-
-                <option value="Other">
-                  Other
-                </option>
-
-              </select>
-
-            </div>
-
-          </div>
-
-
-          <div class="form-field">
-
-            <label for="recipeServings">
-              Servings
-            </label>
-
-            <input
-              id="recipeServings"
-              type="number"
-              min="1"
-              value="4"
-            >
-
-          </div>
-
-
-          <div class="form-field">
-
-            <label>
-              Ingredients
-            </label>
-
-            <div id="ingredientList"></div>
-
-            <button
-              class="small-button"
-              onclick="addIngredientRow()"
-            >
-              + Add Ingredient
-            </button>
-
-          </div>
-
-
-          <div class="form-field">
-
-            <label for="recipeInstructions">
-              Instructions
-            </label>
-
-            <textarea
-              id="recipeInstructions"
-              placeholder="Enter the cooking instructions..."
-            ></textarea>
-
-          </div>
-
-
-          <div class="form-field">
-
-            <label for="recipeNotes">
-              Notes
-            </label>
-
-            <textarea
-              id="recipeNotes"
-              placeholder="Optional notes, substitutions, tips, etc."
-            ></textarea>
-
-          </div>
-
-
-          <div class="recipe-actions">
-
-            <button
-              class="primary-button"
-              onclick="saveRecipe()"
-            >
-              Save Recipe
-            </button>
-
-            <button
-              class="small-button"
-              onclick="hideRecipeForm()"
-            >
-              Cancel
-            </button>
-
-          </div>
-
-        </div>
-
-      </div>
-
-
-      <div id="recipeList"></div>
-
+    <div id="planner"></div>
+
+    <div class="save-area">
+      <button class="save-button" onclick="savePlan()">
+        Save
+      </button>
+
+      <button class="danger-button" onclick="startNewWeek()">
+        Start New Week
+      </button>
     </div>
 
   </main>
 
-
   <script>
-
-    /* =========================
-       MEAL PLANNER
-    ========================= */
 
     const days = [
       "Monday",
@@ -730,12 +353,7 @@
       localStorage.getItem("mealPlanner") || "{}"
     );
 
-    let recipes = JSON.parse(
-      localStorage.getItem("recipes") || "[]"
-    );
-
     let currentView = "mealType";
-
     let selectedDay = 0;
 
 
@@ -744,96 +362,27 @@
     }
 
 
-    function showSection(section) {
-
-      document.getElementById("homeSection").style.display = "none";
-      document.getElementById("mealPlanSection").style.display = "none";
-      document.getElementById("recipesSection").style.display = "none";
-
-      document.getElementById("homeNav").classList.remove("active");
-      document.getElementById("mealPlanNav").classList.remove("active");
-      document.getElementById("recipesNav").classList.remove("active");
-
-
-      if (section === "home") {
-
-        document.getElementById("homeSection").style.display = "block";
-        document.getElementById("homeNav").classList.add("active");
-
-      }
-
-
-      if (section === "mealPlan") {
-
-        document.getElementById("mealPlanSection").style.display = "block";
-        document.getElementById("mealPlanNav").classList.add("active");
-
-        showView(currentView);
-
-      }
-
-
-      if (section === "recipes") {
-
-        document.getElementById("recipesSection").style.display = "block";
-        document.getElementById("recipesNav").classList.add("active");
-
-        renderRecipes();
-
-      }
-
-    }
-
-
     function showView(view) {
-
       currentView = view;
 
-      document
-        .getElementById("mealTypeButton")
-        .classList.remove("active");
-
-      document
-        .getElementById("calendarButton")
-        .classList.remove("active");
-
-      document
-        .getElementById("dayButton")
-        .classList.remove("active");
-
+      document.getElementById("mealTypeButton").classList.remove("active");
+      document.getElementById("calendarButton").classList.remove("active");
+      document.getElementById("dayButton").classList.remove("active");
 
       if (view === "mealType") {
-
-        document
-          .getElementById("mealTypeButton")
-          .classList.add("active");
-
+        document.getElementById("mealTypeButton").classList.add("active");
         renderMealTypeView();
-
       }
-
 
       if (view === "calendar") {
-
-        document
-          .getElementById("calendarButton")
-          .classList.add("active");
-
+        document.getElementById("calendarButton").classList.add("active");
         renderCalendarView();
-
       }
-
 
       if (view === "day") {
-
-        document
-          .getElementById("dayButton")
-          .classList.add("active");
-
+        document.getElementById("dayButton").classList.add("active");
         renderDayView();
-
       }
-
     }
 
 
@@ -843,16 +392,12 @@
 
       planner.innerHTML = "";
 
-
       meals.forEach(meal => {
 
         const section = document.createElement("div");
-
         section.className = "meal-section";
 
-
         section.innerHTML = `
-
           <h3>${meal.name}</h3>
 
           <div class="week-grid">
@@ -862,7 +407,6 @@
               const key = getKey(index, meal.key);
 
               return `
-
                 <div class="day-column">
 
                   <div class="day-label">
@@ -875,15 +419,12 @@
                   >${mealPlan[key] || ""}</textarea>
 
                 </div>
-
               `;
 
             }).join("")}
 
           </div>
-
         `;
-
 
         planner.appendChild(section);
 
@@ -896,15 +437,12 @@
 
       const planner = document.getElementById("planner");
 
-
       planner.innerHTML = `
-
         <div class="calendar-grid">
 
           ${days.map((day, dayIndex) => {
 
             return `
-
               <div class="calendar-day">
 
                 <h3>${day}</h3>
@@ -914,7 +452,6 @@
                   const key = getKey(dayIndex, meal.key);
 
                   return `
-
                     <div class="calendar-meal">
 
                       <div class="calendar-meal-label">
@@ -926,19 +463,16 @@
                       </div>
 
                     </div>
-
                   `;
 
                 }).join("")}
 
               </div>
-
             `;
 
           }).join("")}
 
         </div>
-
       `;
 
     }
@@ -948,9 +482,7 @@
 
       const planner = document.getElementById("planner");
 
-
       planner.innerHTML = `
-
         <div class="day-view">
 
           <div class="day-selector">
@@ -965,27 +497,23 @@
             >
 
               ${days.map((day, index) => `
-
                 <option
                   value="${index}"
                   ${index === selectedDay ? "selected" : ""}
                 >
                   ${day}
                 </option>
-
               `).join("")}
 
             </select>
 
           </div>
 
-
           ${meals.map(meal => {
 
             const key = getKey(selectedDay, meal.key);
 
             return `
-
               <div class="day-meal">
 
                 <h3>${meal.name}</h3>
@@ -996,13 +524,11 @@
                 >${mealPlan[key] || ""}</textarea>
 
               </div>
-
             `;
 
           }).join("")}
 
         </div>
-
       `;
 
     }
@@ -1027,11 +553,8 @@
 
           const input = document.getElementById(key);
 
-
           if (input) {
-
             mealPlan[key] = input.value;
-
           }
 
         });
@@ -1049,11 +572,8 @@
 
         const input = document.getElementById(`day_${key}`);
 
-
         if (input) {
-
           mealPlan[key] = input.value;
-
         }
 
       });
@@ -1067,17 +587,14 @@
         collectMealTypeInputs();
       }
 
-
       if (currentView === "day") {
         collectDayInputs();
       }
-
 
       localStorage.setItem(
         "mealPlanner",
         JSON.stringify(mealPlan)
       );
-
 
       alert("Your meal plan has been saved!");
 
@@ -1087,18 +604,14 @@
     function startNewWeek() {
 
       const confirmed = confirm(
-
         "Start a new week?\n\n" +
         "This will clear all meals from the current week.\n\n" +
         "Your saved recipes will NOT be deleted."
-
       );
-
 
       if (!confirmed) {
         return;
       }
-
 
       mealPlan = {};
 
@@ -1113,476 +626,8 @@
     }
 
 
-    /* =========================
-       RECIPE BOOK
-    ========================= */
-
-
-    function showRecipeForm() {
-
-      document.getElementById(
-        "recipeFormContainer"
-      ).style.display = "block";
-
-
-      document.getElementById("recipeName").value = "";
-
-      document.getElementById("recipeCategory").value = "Dinner";
-
-      document.getElementById("recipeServings").value = "4";
-
-      document.getElementById("recipeInstructions").value = "";
-
-      document.getElementById("recipeNotes").value = "";
-
-      document.getElementById("ingredientList").innerHTML = "";
-
-      addIngredientRow();
-
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-      });
-
-    }
-
-
-    function hideRecipeForm() {
-
-      document.getElementById(
-        "recipeFormContainer"
-      ).style.display = "none";
-
-    }
-
-
-    function addIngredientRow(
-      name = "",
-      quantity = "",
-      unit = ""
-    ) {
-
-      const list = document.getElementById(
-        "ingredientList"
-      );
-
-
-      const row = document.createElement("div");
-
-      row.className = "ingredient-row";
-
-
-      row.innerHTML = `
-
-        <input
-          type="text"
-          class="ingredient-name"
-          placeholder="Ingredient"
-          value="${name}"
-        >
-
-        <input
-          type="text"
-          class="ingredient-quantity"
-          placeholder="Qty"
-          value="${quantity}"
-        >
-
-        <input
-          type="text"
-          class="ingredient-unit"
-          placeholder="Unit"
-          value="${unit}"
-        >
-
-        <button
-          type="button"
-          class="small-button remove-ingredient"
-          onclick="this.parentElement.remove()"
-        >
-          ×
-        </button>
-
-      `;
-
-
-      list.appendChild(row);
-
-    }
-
-
-    function saveRecipe() {
-
-      const name = document
-        .getElementById("recipeName")
-        .value
-        .trim();
-
-
-      if (!name) {
-
-        alert("Please enter a recipe name.");
-
-        return;
-
-      }
-
-
-      const category = document
-        .getElementById("recipeCategory")
-        .value;
-
-
-      const servings = Number(
-        document.getElementById("recipeServings").value
-      ) || 1;
-
-
-      const ingredientRows =
-        document.querySelectorAll(
-          "#ingredientList .ingredient-row"
-        );
-
-
-      const ingredients = [];
-
-
-      ingredientRows.forEach(row => {
-
-        const ingredientName = row
-          .querySelector(".ingredient-name")
-          .value
-          .trim();
-
-
-        const quantity = row
-          .querySelector(".ingredient-quantity")
-          .value
-          .trim();
-
-
-        const unit = row
-          .querySelector(".ingredient-unit")
-          .value
-          .trim();
-
-
-        if (ingredientName) {
-
-          ingredients.push({
-            name: ingredientName,
-            quantity: quantity,
-            unit: unit
-          });
-
-        }
-
-      });
-
-
-      const instructions = document
-        .getElementById("recipeInstructions")
-        .value
-        .trim();
-
-
-      const notes = document
-        .getElementById("recipeNotes")
-        .value
-        .trim();
-
-
-      const recipe = {
-
-        id: Date.now(),
-
-        name: name,
-
-        category: category,
-
-        servings: servings,
-
-        ingredients: ingredients,
-
-        instructions: instructions,
-
-        notes: notes,
-
-        favorite: false
-
-      };
-
-
-      recipes.push(recipe);
-
-
-      localStorage.setItem(
-        "recipes",
-        JSON.stringify(recipes)
-      );
-
-
-      hideRecipeForm();
-
-      renderRecipes();
-
-      alert("Recipe saved!");
-
-    }
-
-
-    function renderRecipes() {
-
-      const list = document.getElementById(
-        "recipeList"
-      );
-
-
-      const search = document
-        .getElementById("recipeSearch")
-        .value
-        .toLowerCase()
-        .trim();
-
-
-      const filteredRecipes = recipes.filter(recipe => {
-
-        return recipe.name
-          .toLowerCase()
-          .includes(search);
-
-      });
-
-
-      if (filteredRecipes.length === 0) {
-
-        list.innerHTML = `
-
-          <div class="empty-message">
-
-            <h3>No recipes yet</h3>
-
-            <p>
-              Click <strong>+ Add Recipe</strong>
-              to add your first recipe.
-            </p>
-
-          </div>
-
-        `;
-
-        return;
-
-      }
-
-
-      list.innerHTML = filteredRecipes.map(recipe => {
-
-        return `
-
-          <div class="recipe-card">
-
-            <div class="recipe-card-header">
-
-              <div>
-
-                <h3>
-                  ${recipe.favorite ? "★ " : ""}
-                  ${escapeHtml(recipe.name)}
-                </h3>
-
-                <div class="recipe-category">
-                  ${escapeHtml(recipe.category)}
-                  · ${recipe.servings} servings
-                </div>
-
-              </div>
-
-            </div>
-
-
-            ${
-              recipe.ingredients.length > 0
-              ?
-
-              `
-
-                <div class="recipe-section-title">
-                  Ingredients
-                </div>
-
-                <ul class="recipe-ingredients">
-
-                  ${recipe.ingredients.map(ingredient => `
-
-                    <li>
-                      ${escapeHtml(ingredient.quantity)}
-                      ${escapeHtml(ingredient.unit)}
-                      ${escapeHtml(ingredient.name)}
-                    </li>
-
-                  `).join("")}
-
-                </ul>
-
-              `
-
-              : ""
-
-            }
-
-
-            ${
-              recipe.instructions
-              ?
-
-              `
-
-                <div class="recipe-section-title">
-                  Instructions
-                </div>
-
-                <div class="recipe-instructions">
-                  ${escapeHtml(recipe.instructions)}
-                </div>
-
-              `
-
-              : ""
-
-            }
-
-
-            ${
-              recipe.notes
-              ?
-
-              `
-
-                <div class="recipe-section-title">
-                  Notes
-                </div>
-
-                <div class="recipe-instructions">
-                  ${escapeHtml(recipe.notes)}
-                </div>
-
-              `
-
-              : ""
-
-            }
-
-
-            <div class="recipe-actions">
-
-              <button
-                class="small-button"
-                onclick="toggleFavorite(${recipe.id})"
-              >
-                ${recipe.favorite ? "★ Unfavorite" : "☆ Favorite"}
-              </button>
-
-
-              <button
-                class="small-button remove-ingredient"
-                onclick="deleteRecipe(${recipe.id})"
-              >
-                Delete
-              </button>
-
-            </div>
-
-          </div>
-
-        `;
-
-      }).join("");
-
-    }
-
-
-    function toggleFavorite(id) {
-
-      const recipe = recipes.find(
-        recipe => recipe.id === id
-      );
-
-
-      if (!recipe) {
-        return;
-      }
-
-
-      recipe.favorite = !recipe.favorite;
-
-
-      localStorage.setItem(
-        "recipes",
-        JSON.stringify(recipes)
-      );
-
-
-      renderRecipes();
-
-    }
-
-
-    function deleteRecipe(id) {
-
-      const recipe = recipes.find(
-        recipe => recipe.id === id
-      );
-
-
-      if (!recipe) {
-        return;
-      }
-
-
-      const confirmed = confirm(
-        `Delete "${recipe.name}"?`
-      );
-
-
-      if (!confirmed) {
-        return;
-      }
-
-
-      recipes = recipes.filter(
-        recipe => recipe.id !== id
-      );
-
-
-      localStorage.setItem(
-        "recipes",
-        JSON.stringify(recipes)
-      );
-
-
-      renderRecipes();
-
-    }
-
-
-    function escapeHtml(value) {
-
-      return String(value)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
-
-    }
-
-
-    /* =========================
-       START APP
-    ========================= */
-
-    showSection("home");
+    // Start on the Meal Type view
+    showView("mealType");
 
   </script>
 
