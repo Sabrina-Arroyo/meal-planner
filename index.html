@@ -637,9 +637,36 @@
 
     }
 
+function loadRecipePickers() {
 
+  const recipes = JSON.parse(
+    localStorage.getItem("recipes") || "[]"
+  );
+
+  const pickers = document.querySelectorAll(".recipe-picker");
+
+  pickers.forEach(picker => {
+
+    picker.innerHTML =
+      '<option value="">Choose a saved recipe...</option>';
+
+    recipes.forEach(recipe => {
+
+      const option = document.createElement("option");
+
+      option.value = recipe.id;
+      option.textContent = recipe.name;
+
+      picker.appendChild(option);
+
+    });
+
+  });
+
+}
     // Start on the Meal Type view
-    showView("mealType");
+   loadRecipePickers();
+showView("mealType");
 
   </script>
 
