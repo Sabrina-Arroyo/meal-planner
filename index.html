@@ -567,22 +567,21 @@ function collectMealTypeInputs() {
 }
 
 
-    function collectDayInputs() {
+function collectDayInputs() {
 
-      meals.forEach(meal => {
+  meals.forEach(meal => {
 
-        const key = getKey(selectedDay, meal.key);
+    const key = getKey(selectedDay, meal.key);
 
-        const input = document.getElementById(`day_${key}`);
+    const picker = document.getElementById(`recipe_day_${key}`);
 
-        if (input) {
-          mealPlan[key] = input.value;
-        }
-
-      });
-
+    if (picker) {
+      mealPlan[key] = picker.value;
     }
 
+  });
+
+}
 
     function savePlan() {
 
