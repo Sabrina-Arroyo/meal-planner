@@ -413,10 +413,16 @@
                     ${day}
                   </div>
 
-                  <textarea
-                    id="${key}"
-                    placeholder="Add meal..."
-                  >${mealPlan[key] || ""}</textarea>
+<div class="meal-entry">
+  <select class="recipe-picker" data-meal-key="${key}">
+    <option value="">Choose a saved recipe...</option>
+  </select>
+
+  <textarea
+    id="${key}"
+    placeholder="Add meal..."
+  >${mealPlan[key] || ""}</textarea>
+</div>
 
                 </div>
               `;
