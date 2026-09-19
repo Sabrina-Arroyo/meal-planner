@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Recipe Book | Meal Planner</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f7f4f0;
+      color: #2f2a26;
+    }
+
+    header {
+      background: #3f3548;
+      color: white;
+      padding: 24px 20px;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0 0 6px;
+    }
+
+    header p {
+      margin: 0;
+      opacity: 0.85;
+    }
+
+    nav {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      padding: 12px;
+      background: white;
+      border-bottom: 1px solid #ddd;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: #2f2a26;
+      background: #eee9e5;
+      padding: 10px 16px;
+      border-radius: 8px;
+      font-size: 14px;
+    }
+
+    nav a:hover {
+      background: #ddd5cf;
+    }
+
+    nav a.active {
+      background: #3f3548;
+      color: white;
+    }
+
+    main {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 24px 16px 50px;
+    }
+
+    .page-title {
+      margin-bottom: 20px;
+    }
+
+    .page-title h2 {
+      margin: 0 0 5px;
+    }
+
+    .page-title p {
+      margin: 0;
+      color: #6c625c;
+    }
+
+    .recipe-toolbar {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+
+    .recipe-toolbar input {
+      flex: 1;
+      min-width: 200px;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      border: 1px solid #d4ccc5;
+      border-radius: 8px;
+      padding: 10px;
+      font-family: inherit;
+      font-size: 14px;
+      background: white;
+    }
+
+    textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    button {
+      border: none;
+      border-radius: 8px;
+      padding: 10px 16px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .primary-button {
+      background: #3f3548;
+      color: white;
+    }
+
+    .primary-button:hover {
+      opacity: 0.85;
+    }
+
+    .secondary-button {
+      background: #ddd5cf;
+      color: #2f2a26;
+    }
+
+    .recipe-form {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 25px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+
+    .recipe-form h3 {
+      margin-top: 0;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .form-field {
+      margin-bottom: 15px;
+    }
+
+    .form-field label {
+      display: block;
+      font-weight: bold;
+      font-size: 13px;
+      margin-bottom: 6px;
+    }
+
+    .ingredient-row {
+      display: grid;
+      grid-template-columns: 1.5fr 0.7fr 0.8fr auto;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    .ingredient-row button {
+      background: #eee0e0;
+    }
+
+    .recipe-card {
+      background: white;
+      border-radius: 12px;
+      padding: 18px;
+      margin-bottom: 15px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+
+    .recipe-card h3 {
+      margin: 0 0 5px;
+    }
+
+    .recipe-category {
+      color: #6c625c;
+      font-size: 13px;
+    }
+
+    .recipe-section-title {
+      font-weight: bold;
+      margin-top: 15px;
+      margin-bottom: 7px;
+    }
+
+    .recipe-ingredients {
+      margin: 0;
+      padding-left: 20px;
+    }
+
+    .recipe-instructions {
+      white-space: pre-wrap;
+    }
+
+    .recipe-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 15px;
+    }
+
+    .delete-button {
+      background: #eee0e0;
+      color: #6b2929;
+    }
+
+    .empty-message {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      text-align: center;
+      color: #6c625c;
+    }
+
+    @media (max-width: 700px) {
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+
+      .ingredient-row {
+        grid-template-columns: 1fr 0.7fr 0.8fr auto;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <h1>Recipe Book</h1>
+    <p>Save your recipes for easy meal planning.</p>
+  </header>
+
+  <nav>
+    <a href="index.html">Meal Planner</a>
+    <a href="recipes.html" class="active">Recipes</a>
+  </nav>
+
+  <main>
+
+    <div class="page-title">
+      <h2>My Recipes</h2>
+      <p>Build your personal recipe collection.</p>
+    </div>
+
+    <div class="recipe-toolbar">
+
+      <input
+        type="text"
+        id="recipeSearch"
+        placeholder="Search recipes..."
+        oninput="renderRecipes()"
+      >
+
+      <button
+        class="primary-button"
+        onclick="showRecipeForm()"
+      >
+        + Add Recipe
+      </button>
+
+    </div>
+
+    <div
+      id="recipeFormContainer"
+      style="display:none;"
+    >
+
+      <div class="recipe-form">
+
+        <h3>Add Recipe</h3>
+
+        <div class="form-row">
+
+          <div class="form-field">
+
+            <label for="recipeName">
+              Recipe Name
+            </label>
+
+            <input
+              id="recipeName"
+              type="text"
+              placeholder="Example: Chicken Tacos"
+            >
+
+          </div>
+
+          <div class="form-field">
+
+            <label for="recipeCategory">
+              Category
+            </label>
+
+            <select id="recipeCategory">
+
+              <option value="Breakfast">Breakfast</option>
+              <option value="Drink">Drink</option>
+              <option value="Lunch">Lunch</option>
+              <option value="Snack">Snack</option>
+              <option value="Dinner" selected>Dinner</option>
+              <option value="Dessert">Dessert</option>
+              <option value="Side">Side</option>
+              <option value="Other">Other</option>
+
+            </select>
+
+          </div>
+
+        </div>
+
+        <div class="form-field">
+
+          <label for="recipeServings">
+            Servings
+          </label>
+
+          <input
+            id="recipeServings"
+            type="number"
+            min="1"
+            value="4"
+          >
+
+        </div>
+
+        <div class="form-field">
+
+          <label>
+            Ingredients
+          </label>
+
+          <div id="ingredientList"></div>
+
+          <button
+            class="secondary-button"
+            onclick="addIngredientRow()"
+          >
+            + Add Ingredient
+          </button>
+
+        </div>
+
+        <div class="form-field">
+
+          <label for="recipeInstructions">
+            Instructions
+          </label>
+
+          <textarea
+            id="recipeInstructions"
+            placeholder="Enter the cooking instructions..."
+          ></textarea>
+
+        </div>
+
+        <div class="form-field">
+
+          <label for="recipeNotes">
+            Notes
+          </label>
+
+          <textarea
+            id="recipeNotes"
+            placeholder="Optional notes, substitutions, tips, etc."
+          ></textarea>
+
+        </div>
+
+        <div class="recipe-actions">
+
+          <button
+            class="primary-button"
+            onclick="saveRecipe()"
+          >
+            Save Recipe
+          </button>
+
+          <button
+            class="secondary-button"
+            onclick="hideRecipeForm()"
+          >
+            Cancel
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <div id="recipeList"></div>
+
+  </main>
+
+  <script>
+
+    let recipes = JSON.parse(
+      localStorage.getItem("recipes") || "[]"
+    );
+
+
+    function showRecipeForm() {
+
+      document.getElementById(
+        "recipeFormContainer"
+      ).style.display = "block";
+
+      document.getElementById("recipeName").value = "";
+
+      document.getElementById("recipeCategory").value = "Dinner";
+
+      document.getElementById("recipeServings").value = "4";
+
+      document.getElementById("recipeInstructions").value = "";
+
+      document.getElementById("recipeNotes").value = "";
+
+      document.getElementById("ingredientList").innerHTML = "";
+
+      addIngredientRow();
+
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+
+    }
+
+
+    function hideRecipeForm() {
+
+      document.getElementById(
+        "recipeFormContainer"
+      ).style.display = "none";
+
+    }
+
+
+    function addIngredientRow(
+      name = "",
+      quantity = "",
+      unit = ""
+    ) {
+
+      const list = document.getElementById(
+        "ingredientList"
+      );
+
+      const row = document.createElement("div");
+
+      row.className = "ingredient-row";
+
+      row.innerHTML = `
+
+        <input
+          type="text"
+          class="ingredient-name"
+          placeholder="Ingredient"
+          value="${name}"
+        >
+
+        <input
+          type="text"
+          class="ingredient-quantity"
+          placeholder="Qty"
+          value="${quantity}"
+        >
+
+        <input
+          type="text"
+          class="ingredient-unit"
+          placeholder="Unit"
+          value="${unit}"
+        >
+
+        <button
+          type="button"
+          onclick="this.parentElement.remove()"
+        >
+          ×
+        </button>
+
+      `;
+
+      list.appendChild(row);
+
+    }
+
+
+    function saveRecipe() {
+
+      const name = document
+        .getElementById("recipeName")
+        .value
+        .trim();
+
+      if (!name) {
+
+        alert("Please enter a recipe name.");
+
+        return;
+
+      }
+
+
+      const category = document
+        .getElementById("recipeCategory")
+        .value;
+
+
+      const servings = Number(
+        document.getElementById("recipeServings").value
+      ) || 1;
+
+
+      const rows = document.querySelectorAll(
+        "#ingredientList .ingredient-row"
+      );
+
+
+      const ingredients = [];
+
+
+      rows.forEach(row => {
+
+        const ingredientName = row
+          .querySelector(".ingredient-name")
+          .value
+          .trim();
+
+        const quantity = row
+          .querySelector(".ingredient-quantity")
+          .value
+          .trim();
+
+        const unit = row
+          .querySelector(".ingredient-unit")
+          .value
+          .trim();
+
+
+        if (ingredientName) {
+
+          ingredients.push({
+            name: ingredientName,
+            quantity: quantity,
+            unit: unit
+          });
+
+        }
+
+      });
+
+
+      const recipe = {
+
+        id: Date.now(),
+
+        name: name,
+
+        category: category,
+
+        servings: servings,
+
+        ingredients: ingredients,
+
+        instructions: document
+          .getElementById("recipeInstructions")
+          .value
+          .trim(),
+
+        notes: document
+          .getElementById("recipeNotes")
+          .value
+          .trim()
+
+      };
+
+
+      recipes.push(recipe);
+
+
+      localStorage.setItem(
+        "recipes",
+        JSON.stringify(recipes)
+      );
+
+
+      hideRecipeForm();
+
+      renderRecipes();
+
+      alert("Recipe saved!");
+
+    }
+
+
+    function renderRecipes() {
+
+      const list = document.getElementById(
+        "recipeList"
+      );
+
+
+      const search = document
+        .getElementById("recipeSearch")
+        .value
+        .toLowerCase()
+        .trim();
+
+
+      const filteredRecipes = recipes.filter(recipe =>
+
+        recipe.name
+          .toLowerCase()
+          .includes(search)
+
+      );
+
+
+      if (filteredRecipes.length === 0) {
+
+        list.innerHTML = `
+
+          <div class="empty-message">
+
+            <h3>No recipes yet</h3>
+
+            <p>
+              Click <strong>+ Add Recipe</strong>
+              to add your first recipe.
+            </p>
+
+          </div>
+
+        `;
+
+        return;
+
+      }
+
+
+      list.innerHTML = filteredRecipes.map(recipe => `
+
+        <div class="recipe-card">
+
+          <h3>${escapeHtml(recipe.name)}</h3>
+
+          <div class="recipe-category">
+            ${escapeHtml(recipe.category)}
+            · ${recipe.servings} servings
+          </div>
+
+
+          ${
+            recipe.ingredients.length > 0
+            ?
+
+            `
+
+              <div class="recipe-section-title">
+                Ingredients
+              </div>
+
+              <ul class="recipe-ingredients">
+
+                ${recipe.ingredients.map(ingredient => `
+
+                  <li>
+                    ${escapeHtml(ingredient.quantity)}
+                    ${escapeHtml(ingredient.unit)}
+                    ${escapeHtml(ingredient.name)}
+                  </li>
+
+                `).join("")}
+
+              </ul>
+
+            `
+
+            : ""
+
+          }
+
+
+          ${
+            recipe.instructions
+            ?
+
+            `
+
+              <div class="recipe-section-title">
+                Instructions
+              </div>
+
+              <div class="recipe-instructions">
+                ${escapeHtml(recipe.instructions)}
+              </div>
+
+            `
+
+            : ""
+
+          }
+
+
+          ${
+            recipe.notes
+            ?
+
+            `
+
+              <div class="recipe-section-title">
+                Notes
+              </div>
+
+              <div class="recipe-instructions">
+                ${escapeHtml(recipe.notes)}
+              </div>
+
+            `
+
+            : ""
+
+          }
+
+
+          <div class="recipe-actions">
+
+            <button
+              class="delete-button"
+              onclick="deleteRecipe(${recipe.id})"
+            >
+              Delete
+            </button>
+
+          </div>
+
+        </div>
+
+      `).join("");
+
+    }
+
+
+    function deleteRecipe(id) {
+
+      const recipe = recipes.find(
+        recipe => recipe.id === id
+      );
+
+
+      if (!recipe) {
+        return;
+      }
+
+
+      const confirmed = confirm(
+        `Delete "${recipe.name}"?`
+      );
+
+
+      if (!confirmed) {
+        return;
+      }
+
+
+      recipes = recipes.filter(
+        recipe => recipe.id !== id
+      );
+
+
+      localStorage.setItem(
+        "recipes",
+        JSON.stringify(recipes)
+      );
+
+
+      renderRecipes();
+
+    }
+
+
+    function escapeHtml(value) {
+
+      return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+    }
+
+
+    renderRecipes();
+
+  </script>
+
+</body>
+</html>
