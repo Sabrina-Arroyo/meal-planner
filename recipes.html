@@ -737,16 +737,22 @@
           }
 
 
-          <div class="recipe-actions">
+      <div class="recipe-actions">
 
-            <button
-              class="delete-button"
-              onclick="deleteRecipe(${recipe.id})"
-            >
-              Delete
-            </button>
+  <button
+    onclick="editRecipe(${recipe.id})"
+  >
+    Edit
+  </button>
 
-          </div>
+  <button
+    class="delete-button"
+    onclick="deleteRecipe(${recipe.id})"
+  >
+    Delete
+  </button>
+
+</div>
 
         </div>
 
