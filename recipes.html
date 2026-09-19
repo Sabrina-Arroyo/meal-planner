@@ -500,7 +500,60 @@
 
     }
 
+function editRecipe(id) {
 
+  const recipe = recipes.find(
+    recipe => recipe.id === id
+  );
+
+  if (!recipe) {
+    return;
+  }
+
+  editingRecipeId = id;
+
+  document.getElementById(
+    "recipeFormContainer"
+  ).style.display = "block";
+
+  document.getElementById("recipeName").value =
+    recipe.name;
+
+  document.getElementById("recipeCategory").value =
+    recipe.category;
+
+  document.getElementById("recipeServings").value =
+    recipe.servings;
+
+  document.getElementById("recipeInstructions").value =
+    recipe.instructions || "";
+
+  document.getElementById("recipeNotes").value =
+    recipe.notes || "";
+
+  document.getElementById("ingredientList").innerHTML = "";
+
+  recipe.ingredients.forEach(ingredient => {
+
+    addIngredientRow(
+      ingredient.name,
+      ingredient.quantity,
+      ingredient.unit
+    );
+
+  });
+
+  if (recipe.ingredients.length === 0) {
+    addIngredientRow();
+  }
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+
+}
+    
     function saveRecipe() {
 
       const name = document
