@@ -362,29 +362,30 @@
     }
 
 
-    function showView(view) {
-      currentView = view;
+   function showView(view) {
+  currentView = view;
 
-      document.getElementById("mealTypeButton").classList.remove("active");
-      document.getElementById("calendarButton").classList.remove("active");
-      document.getElementById("dayButton").classList.remove("active");
+  document.getElementById("mealTypeButton").classList.remove("active");
+  document.getElementById("calendarButton").classList.remove("active");
+  document.getElementById("dayButton").classList.remove("active");
 
-      if (view === "mealType") {
-        document.getElementById("mealTypeButton").classList.add("active");
-        renderMealTypeView();
-      }
+  if (view === "mealType") {
+    document.getElementById("mealTypeButton").classList.add("active");
+    renderMealTypeView();
+    loadRecipePickers();
+  }
 
-      if (view === "calendar") {
-        document.getElementById("calendarButton").classList.add("active");
-        renderCalendarView();
-      }
+  if (view === "calendar") {
+    document.getElementById("calendarButton").classList.add("active");
+    renderCalendarView();
+  }
 
-      if (view === "day") {
-        document.getElementById("dayButton").classList.add("active");
-        renderDayView();
-      }
-    }
-
+  if (view === "day") {
+    document.getElementById("dayButton").classList.add("active");
+    renderDayView();
+    loadRecipePickers();
+  }
+}
 
     function renderMealTypeView() {
 
