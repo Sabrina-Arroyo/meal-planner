@@ -412,33 +412,34 @@
 
     let editingRecipeId = null;
 
-    function showRecipeForm() {
+ function showRecipeForm() {
 
-      document.getElementById(
-        "recipeFormContainer"
-      ).style.display = "block";
+  editingRecipeId = null;
 
-      document.getElementById("recipeName").value = "";
+  document.getElementById(
+    "recipeFormContainer"
+  ).style.display = "block";
 
-      document.getElementById("recipeCategory").value = "Dinner";
+  document.getElementById("recipeName").value = "";
 
-      document.getElementById("recipeServings").value = "4";
+  document.getElementById("recipeCategory").value = "Dinner";
 
-      document.getElementById("recipeInstructions").value = "";
+  document.getElementById("recipeServings").value = "4";
 
-      document.getElementById("recipeNotes").value = "";
+  document.getElementById("recipeInstructions").value = "";
 
-      document.getElementById("ingredientList").innerHTML = "";
+  document.getElementById("recipeNotes").value = "";
 
-      addIngredientRow();
+  document.getElementById("ingredientList").innerHTML = "";
 
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-      });
+  addIngredientRow();
 
-    }
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
 
+}
 
     function hideRecipeForm() {
 
