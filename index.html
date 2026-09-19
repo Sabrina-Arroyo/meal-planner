@@ -60,7 +60,7 @@
         }
 
         main {
-            max-width: 900px;
+            max-width: 1500px;
             margin: 0 auto;
             padding: 24px 16px 50px;
         }
@@ -78,53 +78,46 @@
             color: #666;
         }
 
-        .day {
+        /*
+         * CALENDAR
+         */
+
+        .calendar-wrapper {
+            width: 100%;
+            overflow-x: auto;
             background: white;
             border-radius: 14px;
-            margin-bottom: 12px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.07);
-            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .calendar {
+            display: grid;
+            grid-template-columns: repeat(7, minmax(150px, 1fr));
+            min-width: 1050px;
+        }
+
+        .day-column {
+            border-right: 1px solid #ddd;
+            min-height: 600px;
+        }
+
+        .day-column:last-child {
+            border-right: none;
         }
 
         .day-header {
-            width: 100%;
-            border: none;
-            background: white;
-            padding: 18px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            cursor: pointer;
-            font-size: 18px;
+            background: #292929;
+            color: white;
+            padding: 15px 10px;
+            text-align: center;
             font-weight: bold;
-            text-align: left;
-        }
-
-        .day-header:hover {
-            background: #fafafa;
-        }
-
-        .arrow {
-            font-size: 16px;
-            transition: transform 0.2s;
-        }
-
-        .day.open .arrow {
-            transform: rotate(180deg);
-        }
-
-        .meals {
-            display: none;
-            padding: 0 20px 20px;
-            border-top: 1px solid #eee;
-        }
-
-        .day.open .meals {
-            display: block;
+            position: sticky;
+            top: 0;
+            z-index: 2;
         }
 
         .meal {
-            padding: 15px 0;
+            padding: 12px;
             border-bottom: 1px solid #eee;
         }
 
@@ -134,35 +127,31 @@
 
         .meal-label {
             display: block;
+            font-size: 13px;
             font-weight: bold;
             margin-bottom: 7px;
         }
 
         .meal-input {
             width: 100%;
-            padding: 11px 12px;
+            min-height: 42px;
+            padding: 9px;
             border: 1px solid #ccc;
-            border-radius: 8px;
-            font-size: 15px;
+            border-radius: 7px;
+            font-size: 14px;
+            background: #fafafa;
         }
 
         .meal-input:focus {
             outline: none;
             border-color: #555;
-        }
-
-        .save-message {
-            text-align: center;
-            color: #555;
-            font-size: 14px;
-            min-height: 20px;
-            margin-top: 12px;
+            background: white;
         }
 
         .save-button {
             display: block;
-            margin: 20px auto 0;
-            padding: 12px 22px;
+            margin: 22px auto 0;
+            padding: 12px 24px;
             border: none;
             border-radius: 8px;
             background: #292929;
@@ -175,21 +164,54 @@
             opacity: 0.85;
         }
 
-        @media (max-width: 600px) {
+        .save-message {
+            text-align: center;
+            color: #555;
+            font-size: 14px;
+            min-height: 20px;
+            margin-top: 12px;
+        }
+
+        /*
+         * MOBILE
+         */
+
+        @media (max-width: 700px) {
+
             header h1 {
                 font-size: 24px;
             }
 
             main {
-                padding: 20px 12px 40px;
+                padding: 20px 10px 40px;
             }
 
-            .day-header {
-                padding: 16px;
+            .page-heading {
+                padding-left: 4px;
             }
 
-            .meals {
-                padding: 0 16px 16px;
+            .calendar-wrapper {
+                border-radius: 10px;
+            }
+
+            .calendar {
+                min-width: 980px;
+            }
+
+            .day-column {
+                min-height: 550px;
+            }
+
+            .meal {
+                padding: 10px;
+            }
+
+            .meal-label {
+                font-size: 12px;
+            }
+
+            .meal-input {
+                font-size: 13px;
             }
         }
     </style>
@@ -217,7 +239,9 @@
         <p>Plan your meals from Monday through Sunday.</p>
     </div>
 
-    <div id="mealPlan"></div>
+    <div class="calendar-wrapper">
+        <div class="calendar" id="mealPlan"></div>
+    </div>
 
     <button class="save-button" onclick="saveMealPlan()">
         Save Meal Plan
@@ -228,6 +252,7 @@
 </main>
 
 <script>
+
     const days = [
         "Monday",
         "Tuesday",
@@ -239,73 +264,98 @@
     ];
 
     const mealTypes = [
-        { key: "breakfast", name: "🍳 Breakfast" },
-        { key: "drink", name: "🥤 Drink" },
-        { key: "lunch", name: "🥪 Lunch" },
-        { key: "snack", name: "🍎 Snack" },
-        { key: "dinner", name: "🍽️ Dinner" }
+        {
+            key: "breakfast",
+            name: "🍳 Breakfast"
+        },
+        {
+            key: "drink",
+            name: "🥤 Drink"
+        },
+        {
+            key: "lunch",
+            name: "🥪 Lunch"
+        },
+        {
+            key: "snack",
+            name: "🍎 Snack"
+        },
+        {
+            key: "dinner",
+            name: "🍽️ Dinner"
+        }
     ];
 
     function createMealPlan() {
+
         const container = document.getElementById("mealPlan");
+
         container.innerHTML = "";
 
         days.forEach((day, dayIndex) => {
 
-            const dayBox = document.createElement("div");
-            dayBox.className = "day";
+            const dayColumn = document.createElement("div");
 
-            const header = document.createElement("button");
-            header.className = "day-header";
-            header.innerHTML = `
-                <span>${day}</span>
-                <span class="arrow">▼</span>
-            `;
+            dayColumn.className = "day-column";
 
-            header.onclick = function() {
-                dayBox.classList.toggle("open");
-            };
+            const dayHeader = document.createElement("div");
 
-            const meals = document.createElement("div");
-            meals.className = "meals";
+            dayHeader.className = "day-header";
+
+            dayHeader.textContent = day;
+
+            dayColumn.appendChild(dayHeader);
 
             mealTypes.forEach(meal => {
 
                 const mealBox = document.createElement("div");
+
                 mealBox.className = "meal";
 
                 const label = document.createElement("label");
+
                 label.className = "meal-label";
+
                 label.textContent = meal.name;
 
                 const input = document.createElement("input");
+
                 input.className = "meal-input";
+
                 input.type = "text";
-                input.placeholder = "Add a meal...";
+
+                input.placeholder = "Add meal...";
 
                 input.dataset.day = dayIndex;
+
                 input.dataset.meal = meal.key;
 
                 mealBox.appendChild(label);
+
                 mealBox.appendChild(input);
-                meals.appendChild(mealBox);
+
+                dayColumn.appendChild(mealBox);
             });
 
-            dayBox.appendChild(header);
-            dayBox.appendChild(meals);
-
-            container.appendChild(dayBox);
+            container.appendChild(dayColumn);
         });
 
         loadMealPlan();
     }
 
     function saveMealPlan() {
+
         const inputs = document.querySelectorAll(".meal-input");
+
         const mealPlan = {};
 
         inputs.forEach(input => {
-            const key = input.dataset.day + "_" + input.dataset.meal;
+
+            const key =
+                input.dataset.day +
+                "_" +
+                input.dataset.meal;
+
             mealPlan[key] = input.value;
         });
 
@@ -318,28 +368,44 @@
             "Meal plan saved.";
 
         setTimeout(() => {
+
             document.getElementById("saveMessage").textContent = "";
+
         }, 2500);
     }
 
     function loadMealPlan() {
-        const saved = localStorage.getItem("mealPlanner");
 
-        if (!saved) return;
+        const saved =
+            localStorage.getItem("mealPlanner");
 
-        const mealPlan = JSON.parse(saved);
-        const inputs = document.querySelectorAll(".meal-input");
+        if (!saved) {
+            return;
+        }
+
+        const mealPlan =
+            JSON.parse(saved);
+
+        const inputs =
+            document.querySelectorAll(".meal-input");
 
         inputs.forEach(input => {
-            const key = input.dataset.day + "_" + input.dataset.meal;
+
+            const key =
+                input.dataset.day +
+                "_" +
+                input.dataset.meal;
 
             if (mealPlan[key]) {
-                input.value = mealPlan[key];
+
+                input.value =
+                    mealPlan[key];
             }
         });
     }
 
     createMealPlan();
+
 </script>
 
 </body>
